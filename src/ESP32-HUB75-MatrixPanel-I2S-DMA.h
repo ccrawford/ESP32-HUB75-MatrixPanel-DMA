@@ -594,21 +594,14 @@ public:
    */
   static void color565to888(const uint16_t color, uint8_t &r, uint8_t &g, uint8_t &b);
 
-  inline void flipDMABuffer()
+  inline void flipDMABuffer(bool toggleDisplay=true)
   {
-    if (!m_cfg.double_buff)
-    {
-      return;
-    }
+    if (!m_cfg.double_buff) return;
 	
-    dma_bus.flip_dma_output_buffer(back_buffer_id);
+    if(toggleDisplay) dma_bus.flip_dma_output_buffer(back_buffer_id);
 	
-	//back_buffer_id ^= 1;
-	back_buffer_id = back_buffer_id^1;
+	  back_buffer_id = back_buffer_id^1;
     fb = &frame_buffer[back_buffer_id];	
-	
-
-	
   }
 
   /**
